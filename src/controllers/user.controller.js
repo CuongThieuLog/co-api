@@ -157,6 +157,37 @@ function UserController() {
     }
   };
 
+  this.updatePassword = async (req, res) => {
+    const userId = req.params.id;
+    const { currentPassword, newPassword } = req.body;
+
+    try {
+      let user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      const isCurrentPasswordValid = await user.comparePassword(
+        currentPassword
+      );
+
+      if (!isCurrentPasswordValid) {
+        return res
+          .status(401)
+          .json({ message: "Current password is incorrect" });
+      }
+
+      user.password = newPassword;
+
+      await user.save();
+
+      return res.json({ message: "Password updated successfully" });
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  };
+
   return this;
 }
 
