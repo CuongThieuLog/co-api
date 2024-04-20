@@ -149,10 +149,6 @@ function UserController() {
 
       const labor = await Labor.findById(userData.labor);
 
-      if (!labor) {
-        return res.status(404).json({ message: "Labor not found" });
-      }
-
       userData.labor = labor;
 
       return res.json({ user: userData });
