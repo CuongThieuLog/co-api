@@ -18,7 +18,7 @@ function MaterialController() {
 
       res.json({ data: results, pagination: pagination });
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: error.message });
     }
   };
 
@@ -28,7 +28,7 @@ function MaterialController() {
       await material.save();
       res.status(201).json({ data: material });
     } catch (error) {
-      res.status(400).json({ error: "Internal Server Error" });
+      res.status(400).json({ error: error.message });
     }
   };
 
@@ -41,7 +41,7 @@ function MaterialController() {
       }
       res.json(material);
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: error.message });
     }
   };
 
@@ -56,7 +56,7 @@ function MaterialController() {
       }
       res.json({ data: material });
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(400).json({ error: error.message });
     }
   };
 
@@ -69,7 +69,7 @@ function MaterialController() {
       }
       res.json({ message: "Material deleted successfully" });
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: error.message });
     }
   };
 

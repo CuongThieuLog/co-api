@@ -18,17 +18,17 @@ function ProjectController() {
 
       res.json({ data: results, pagination: pagination });
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: error.message });
     }
   };
 
   this.create = async (req, res) => {
     try {
       const project = new Project(req.body);
-      await project.save();
+      await project.save({ runValidators: true });
       res.status(201).json({ data: project });
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(400).json({ error: error.message });
     }
   };
 
@@ -41,7 +41,7 @@ function ProjectController() {
       }
       res.json({ data: project });
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: error.message });
     }
   };
 
@@ -50,13 +50,14 @@ function ProjectController() {
       const projectId = req.params.id;
       const project = await Project.findByIdAndUpdate(projectId, req.body, {
         new: true,
+        runValidators: true,
       });
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
       res.json({ data: project });
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(400).json({ error: error.message });
     }
   };
 
@@ -69,7 +70,7 @@ function ProjectController() {
       }
       res.json({ message: "Project deleted successfully" });
     } catch (error) {
-      res.status(500).json({ error: "Internal Server Error" });
+      res.status(500).json({ error: error.message });
     }
   };
 
