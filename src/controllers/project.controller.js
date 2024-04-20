@@ -1,10 +1,22 @@
 const Project = require("../models/project.model");
+const BaseController = require("./base.controller");
 
 function ProjectController() {
+  const baseController = BaseController;
+
   this.findAll = async (req, res) => {
     try {
-      const projects = await Project.find();
-      res.json({ data: projects });
+      const { page, limit, project_name } = req.query;
+      let query = baseController.appendFilters({}, { project_name });
+
+      const { results, pagination } = await baseController.pagination(
+        Project,
+        query,
+        page,
+        limit
+      );
+
+      res.json({ data: results, pagination: pagination });
     } catch (error) {
       res.status(500).json({ error: "Internal Server Error" });
     }
