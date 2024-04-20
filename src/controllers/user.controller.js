@@ -1,7 +1,10 @@
 const User = require("../models/user.model");
 const Labor = require("../models/labor.model");
+const BaseController = require("./base.controller");
 
 function UserController() {
+  const baseController = BaseController;
+
   this.find = async (req, res) => {
     return res.send(req.user);
   };
@@ -29,10 +32,42 @@ function UserController() {
 
   this.findAll = async (req, res) => {
     try {
-      const users = await User.find();
-      return res.json(users);
+      const { page, limit, role, username } = req.query;
+
+      let query = baseController.appendFilters({}, { role, username });
+
+      const { results, pagination } = await baseController.pagination(
+        User,
+        query,
+        page,
+        limit
+      );
+
+      const transformedData = await Promise.all(
+        results.map(async (user) => {
+          const userObj = user.toObject();
+          const laborInfo = await Labor.findById(userObj.labor);
+
+          const transformedUser = {
+            _id: userObj._id,
+            role: userObj.role,
+            username: userObj.username,
+            email: userObj.email,
+            labor: laborInfo,
+            createdAt: userObj.createdAt,
+            updatedAt: userObj.updatedAt,
+          };
+
+          return transformedUser;
+        })
+      );
+
+      res.status(200).json({
+        data: transformedData,
+        pagination: pagination,
+      });
     } catch (error) {
-      return res.status(500).json({ message: error.message });
+      res.status(400).json({ error: error.message });
     }
   };
 
