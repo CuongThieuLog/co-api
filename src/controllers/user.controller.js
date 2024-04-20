@@ -94,7 +94,7 @@ function UserController() {
 
       return res.json({ user: user, labor: labor });
     } catch (error) {
-      return res.status(400).json(error);
+      return res.status(400).json(error.message);
     }
   };
 
@@ -128,6 +128,34 @@ function UserController() {
       await labor.save();
 
       return res.json({ user: user, labor: labor });
+    } catch (error) {
+      return res.status(400).json({ message: error.message });
+    }
+  };
+
+  this.getUserIsLaborById = async (req, res) => {
+    const userId = req.params.id;
+
+    try {
+      const user = await User.findById(userId);
+
+      if (!user) {
+        return res.status(404).json({ message: "User not found" });
+      }
+
+      let userData = user.toObject();
+
+      delete userData.tokens;
+
+      const labor = await Labor.findById(userData.labor);
+
+      if (!labor) {
+        return res.status(404).json({ message: "Labor not found" });
+      }
+
+      userData.labor = labor;
+
+      return res.json({ user: userData });
     } catch (error) {
       return res.status(400).json({ message: error.message });
     }
