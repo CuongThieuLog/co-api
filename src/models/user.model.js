@@ -18,6 +18,12 @@ const UserSchema = new mongoose.Schema(
       match: [/\S+@\S+\.\S+/, "is invalid"],
       index: true,
     },
+    role: {
+      type: String,
+      required: [true, "can't be blank"],
+      enum: ["ADMIN", "MANAGER", "USER"],
+      default: "USER",
+    },
     password: {
       type: String,
       required: true,

@@ -72,7 +72,6 @@ function UserController() {
   };
 
   this.createUserIsLabor = async (req, res) => {
-    console.log(req.body);
     try {
       let user = new User({
         username: req.body.username,
@@ -112,6 +111,7 @@ function UserController() {
 
       user.username = userData.username || user.username;
       user.email = userData.email || user.email;
+      user.role = userData.role || user.role;
 
       await user.save();
 
