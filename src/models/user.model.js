@@ -21,7 +21,7 @@ const UserSchema = new mongoose.Schema(
     password: {
       type: String,
       required: true,
-      minLength: 7,
+      minlength: 7,
     },
     tokens: [
       {
@@ -31,6 +31,11 @@ const UserSchema = new mongoose.Schema(
         },
       },
     ],
+    labor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Labor",
+      default: null,
+    },
   },
   { timestamps: true }
 );

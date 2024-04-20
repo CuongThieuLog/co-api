@@ -4,5 +4,8 @@ const auth = require("../middleware/auth.middleware");
 
 router.post("/user/register", UserController.register);
 router.get("/user/me", auth, UserController.find);
+router.get("/user", auth, UserController.findAll);
+router.post("/user/create", auth, UserController.createUserIsLabor);
+router.put("/user/update/:id", auth, UserController.updateUserIsLabor);
 
 module.exports = router;
