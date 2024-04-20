@@ -10,6 +10,6 @@ const router = express.Router();
 router.use("/", userRoute);
 router.use("/", authRoute);
 router.use("/project", projectRoute);
-router.use("/material", projectRoute);
+router.use("/material", materialRoute);
 
 module.exports = router;

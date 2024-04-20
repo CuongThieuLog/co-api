@@ -1,4 +1,4 @@
-const Material = require("../models/Material");
+const Material = require("../models/material.model");
 const BaseController = require("./base.controller");
 
 function MaterialController() {
