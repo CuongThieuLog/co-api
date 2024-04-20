@@ -4,7 +4,7 @@ function ProjectController() {
   this.findAll = async (req, res) => {
     try {
       const projects = await Project.find();
-      res.json(projects);
+      res.json({ data: projects });
     } catch (error) {
       res.status(500).json({ error: "Internal Server Error" });
     }
@@ -14,7 +14,7 @@ function ProjectController() {
     try {
       const project = new Project(req.body);
       await project.save();
-      res.status(201).json(project);
+      res.status(201).json({ data: project });
     } catch (error) {
       res.status(500).json({ error: "Internal Server Error" });
     }
@@ -27,7 +27,7 @@ function ProjectController() {
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
-      res.json(project);
+      res.json({ data: project });
     } catch (error) {
       res.status(500).json({ error: "Internal Server Error" });
     }
@@ -42,7 +42,7 @@ function ProjectController() {
       if (!project) {
         return res.status(404).json({ error: "Project not found" });
       }
-      res.json(project);
+      res.json({ data: project });
     } catch (error) {
       res.status(500).json({ error: "Internal Server Error" });
     }
