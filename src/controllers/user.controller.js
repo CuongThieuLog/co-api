@@ -98,7 +98,7 @@ function UserController() {
     }
   };
 
-  this.updateUserIsLabor = async (req, res) => {
+  const updateUserIsLabor = async (req, res) => {
     const userId = req.params.id;
     const userData = req.body;
 
@@ -118,14 +118,23 @@ function UserController() {
       let labor = await Labor.findById(user.labor);
 
       if (!labor) {
-        return res.status(404).json({ message: "Labor not found" });
+        labor = new Labor({
+          labor_name: userData.labor_name,
+          position: userData.position,
+          rate_per_hour: userData.rate_per_hour,
+        });
+
+        await labor.save();
+
+        user.labor = labor._id;
+        await user.save();
+      } else {
+        labor.labor_name = userData.labor_name || labor.labor_name;
+        labor.position = userData.position || labor.position;
+        labor.rate_per_hour = userData.rate_per_hour || labor.rate_per_hour;
+
+        await labor.save();
       }
-
-      labor.labor_name = userData.labor_name || labor.labor_name;
-      labor.position = userData.position || labor.position;
-      labor.rate_per_hour = userData.rate_per_hour || labor.rate_per_hour;
-
-      await labor.save();
 
       return res.json({ user: user, labor: labor });
     } catch (error) {
