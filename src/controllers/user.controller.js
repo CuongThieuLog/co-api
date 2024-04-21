@@ -98,7 +98,7 @@ function UserController() {
     }
   };
 
-  const updateUserIsLabor = async (req, res) => {
+  this.updateUserIsLabor = async (req, res) => {
     const userId = req.params.id;
     const userData = req.body;
 
