@@ -63,7 +63,7 @@ function MaterialController() {
   this.remove = async (req, res) => {
     try {
       const materialId = req.params.id;
-      const material = await Material.findByIdAndRemove(materialId);
+      const material = await Material.findByIdAndDelete(materialId);
       if (!material) {
         return res.status(404).json({ error: "Material not found" });
       }

@@ -64,7 +64,7 @@ function ReportController() {
   this.remove = async (req, res) => {
     try {
       const reportId = req.params.id;
-      const report = await Report.findByIdAndRemove(reportId);
+      const report = await Report.findByIdAndDelete(reportId);
       if (!report) {
         return res.status(404).json({ error: "Report not found" });
       }
