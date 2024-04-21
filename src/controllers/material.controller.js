@@ -73,6 +73,21 @@ function MaterialController() {
     }
   };
 
+  this.findAllKeyValue = async (req, res) => {
+    try {
+      const materials = await Material.find();
+
+      const keyValueMaterial = materials.map((mr) => ({
+        label: mr.material_name,
+        value: mr._id,
+      }));
+
+      res.json(keyValueMaterial);
+    } catch (error) {
+      res.status(500).json(error.message);
+    }
+  };
+
   return this;
 }
 

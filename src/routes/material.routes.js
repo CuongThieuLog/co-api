@@ -7,5 +7,6 @@ router.post("/", auth, MaterialController.create);
 router.get("/:id", auth, MaterialController.find);
 router.put("/:id", auth, MaterialController.update);
 router.delete("/:id", auth, MaterialController.remove);
+router.get("/all/key-value", auth, MaterialController.findAllKeyValue);
 
 module.exports = router;
