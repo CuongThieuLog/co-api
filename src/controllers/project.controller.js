@@ -5,19 +5,19 @@ function ProjectController() {
   const baseController = BaseController;
 
   this.findAll = async (req, res) => {
-    // try {
-    //   const { page, limit, project_name } = req.query;
-    //   let query = baseController.appendFilters({}, { project_name });
-    //   const { results, pagination } = await baseController.pagination(
-    //     Project,
-    //     query,
-    //     page,
-    //     limit
-    //   );
-    //   res.json({ data: results, pagination: pagination });
-    // } catch (error) {
-    //   res.status(500).json({ error: error.message });
-    // }
+    try {
+      const { page, limit, project_name } = req.query;
+      let query = baseController.appendFilters({}, { project_name });
+      const { results, pagination } = await baseController.pagination(
+        Project,
+        query,
+        page,
+        limit
+      );
+      res.json({ data: results, pagination: pagination });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
   };
 
   this.create = async (req, res) => {
